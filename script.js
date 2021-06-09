@@ -1,10 +1,16 @@
+var selectedRow = null
+
 function onFormSubmit() {
-
     var formData = readFormData();
-    insertNewRecord(formData);
-
+    
+    if (selectedRow == null){
+        insertNewRecord(formData);
+    }else{
+        updateRecord(formData);
+    }
+     resetForm();
+    
 }
-
 
 function readFormData() {
     var formData = {};
@@ -31,7 +37,53 @@ function insertNewRecord(data) {
     cell5 = newRow.insertCell(4);
     cell5.innerHTML = data.salary;
     cell6 = newRow.insertCell(5);
-    cell6.innerHTML = `<button class="btn btn-warning">Edit</button>
-                       <button class="btn btn-danger">Delete</button>`;
+    cell6.innerHTML = `<button class="btn btn-warning"  data-toggle="modal" data-target="#add" onClick="onEdit(this)">Edit</button>
+                       <button class="btn btn-danger onClick="onDelete(this">Delete</button>`;
 }
 
+
+
+function resetForm() {
+    document.getElementById("name").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("phone").value = "";
+    document.getElementById("position").value = "";
+    document.getElementById("salary").value = "";
+    selectedRow = null;
+}
+
+function onEdit(td) {
+    selectedRow = td.parentElement.parentElement;
+    document.getElementById("name").value = selectedRow.cells[0].innerHTML;
+    document.getElementById("email").value = selectedRow.cells[1].innerHTML;
+    document.getElementById("phone").value = selectedRow.cells[2].innerHTML;
+    document.getElementById("position").value = selectedRow.cells[3].innerHTML;
+    document.getElementById("salary").value = selectedRow.cells[4].innerHTML;
+}
+function updateRecord(formData) {
+    selectedRow.cells[0].innerHTML = formData.name;
+    selectedRow.cells[1].innerHTML = formData.email;
+    selectedRow.cells[2].innerHTML = formData.phone;
+    selectedRow.cells[3].innerHTML = formData.position;
+    selectedRow.cells[4].innerHTML = formData.salary;
+}
+
+// function onDelete(td) {
+//     if (confirm('Are you sure to delete this record ?')) {
+//         row = td.parentElement.parentElement;
+//         document.getElementById("employeeList").deleteRow(row.rowIndex);
+//         resetForm();
+//     }
+// }
+// function validate() {
+//     isValid = true;
+//     if (document.getElementById("name").value == "") {
+//         isValid = false;
+//         document.getElementById("nameValidationError").classList.remove("hide");
+//     } else {
+//         isValid = true;
+//         if (!document.getElementById("nameValidationError").classList.contains("hide"))
+//             document.getElementById("nameValidationError").classList.add("hide");
+//     }
+//     return isValid;
+// }
