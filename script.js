@@ -9,6 +9,8 @@ const onFormSubmit = () => {
     updateRecord(formData);
   }
   resetForm();
+  alert('User information update')
+  document.getElementById("information").style.display = 'none'
 };
 
 const readFormData = () => {
@@ -85,3 +87,4 @@ const onDelete = (td) => {
     resetForm();
   }
 };
+
